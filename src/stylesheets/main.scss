@@ -1,6 +1,92 @@
-// Your styles go here
+//modules
+@use "sass:string";
+@use "sass:color";
+@use "sass:map";
+@use "sass:list";
+
+//variables
+$primary-color: #202020;
+$secondary-color: #000000;
+$tertiary-color: #0d6efd;
+$accent: #303030;
+$white: #fff;
+$text-color: #333;
+$copyright-color: rgba(255, 255, 255, 0.4);
+$border-color: rgba(0, 0, 0, 0.1);
+$grey: #ddd;
+$text-decor: rgba(255, 255, 255, 0.5);
+$strong-header: rgba(255, 255, 255, 0.7);
+
+//mixins
+@mixin border {
+  border-top: 1px solid;
+  border-color: $border-color;
+}
+
+@mixin header {
+  position: relative;
+  background: $white;
+}
+
+@mixin first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+@mixin list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin image {
+  display: block;
+  width: 100%;
+}
+
+@mixin make-container($color, $size: "normal") {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @if ($size: "large") {
+    width: 100%;
+    max-width: 1500px;
+    min-width: 1200px;
+  } @else {
+    width: 900px;
+  }
+}
+
+@mixin make-column($width) {
+  width: 100%;
+
+  /*@if (min-width: 576px) {
+    width: 8.33333%, 16.666%, 25%, 33.333%, 41.666%, 50%, 58.333%, 66.666%, 75%, 83.333%, 91.666%, 100%;
+  }*/
+}
+
+//maps
+/*$columns-info: (
+  "width": (
+    8.33333%,
+    16.666%,
+    25%,
+    33.333%,
+    41.666%,
+    50%,
+    58.333%,
+    66.666%,
+    75%,
+    83.333%,
+    91.666%,
+    100%,
+  ),
+); */
+
+//general formatting
 body {
-  background: #202020 url('/images/footer-bg.jpg') repeat;
+  background: $primary-color url("/images/footer-bg.jpg") repeat;
   min-width: 1200px;
   margin: 0;
   padding: 0;
@@ -10,10 +96,82 @@ body,
 input,
 textarea,
 select {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   font-weight: 300;
   font-size: 11pt;
   line-height: 1.75em;
+}
+
+@import "nav";
+
+/*.nav {
+  position: absolute;
+  right: 0em;
+  top: 2.2em;
+
+  ul {
+    list-style-type: none;
+
+    li {
+      float: left;
+
+      :last-child {
+        padding-right: 0;
+      }
+
+      a,
+      span {
+        display: block;
+        margin-left: 0.7em;
+        padding: 0.8em 1.2em;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1.1em;
+        outline: 0;
+        color: $text-color;
+      }
+    }
+  }
+
+  li.active a {
+    background: $tertiary-color;
+    border-radius: 5px;
+    color: $white;
+  }
+} */
+
+header {
+  margin-bottom: 2em;
+  line-height: 1.7em;
+
+  & h2 {
+    font-size: 2.5em;
+  }
+
+  & .byline {
+    display: block;
+    margin: 0.5em 0 0 0;
+    padding: 0 0 0.5em 0;
+    text-transform: uppercase;
+    font-size: 1.4em;
+  }
+  .sidebar & h2 {
+    font-size: 1.6em;
+  }
+}
+
+.logo {
+  position: absolute;
+  left: 0em;
+  top: 3em;
+
+  a {
+    display: block;
+    text-decoration: none;
+    font-size: 2.8em;
+    font-weight: 600;
+  }
 }
 
 h1,
@@ -25,9 +183,14 @@ h6 {
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 300;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-h1 a,
+/*h1 a,
 h2 a,
 h3 a,
 h4 a,
@@ -35,12 +198,12 @@ h5 a,
 h6 a {
   color: inherit;
   text-decoration: none;
-}
+} */
 
 strong,
 b {
   font-weight: bold;
-  color: #000000;
+  color: $secondary-color;
 }
 
 em,
@@ -49,7 +212,7 @@ i {
 }
 
 a {
-  color: #0d6efd;
+  color: $tertiary-color;
 }
 
 sub {
@@ -66,7 +229,7 @@ sup {
 
 hr {
   border: 0;
-  border-top: solid 1px #ddd;
+  border-top: solid 1px $grey;
 }
 
 p,
@@ -77,21 +240,59 @@ table {
   margin-bottom: 1em;
 }
 
-header {
-  margin-bottom: 2em;
-  line-height: 1.7em;
-}
+.container {
+  @include make-container($primary-color, "normal");
+  /*width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
-header h2 {
-  font-size: 2.5em;
-}
+  .small {
+    width: 900px;
+  }
 
-header .byline {
-  display: block;
-  margin: 0.5em 0 0 0;
-  padding: 0 0 0.5em 0;
-  text-transform: uppercase;
-  font-size: 1.4em;
+  .big {
+    width: 100%;
+    max-width: 1500px;
+    min-width: 1200px;
+  }*/
+
+  /*.row {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: -50px;*/
+
+  .column {
+    @include make-column(width);
+  }
+
+  .row {
+    margin-left: -50px;
+  }
+
+  .row [class*="column-"] {
+    padding: 50px 0 0 50px;
+    float: left;
+    box-sizing: border-box;
+  }
+
+  .row section,
+  .row article {
+    margin-bottom: 0;
+  }
+
+  .row:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+  }
+}
+.marketing {
+  position: relative;
+
+  header h2 {
+    font-size: 1.6em;
+  }
 }
 
 section,
@@ -116,55 +317,14 @@ blockquote {
   font-style: normal;
 }
 
-footer {
-  margin-top: 1em;
-}
-
-.container {
-  width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.container.small {
-  width: 900px;
-}
-
-.container.big {
-  width: 100%;
-  max-width: 1500px;
-  min-width: 1200px;
-}
-
-.row section,
-.row article {
-  margin-bottom: 0;
-}
-
-.row [class*='column-'] {
-  padding: 50px 0 0 50px;
-  float: left;
-  box-sizing: border-box;
-}
-
-.row {
-  margin-left: -50px;
-}
-
-.row:after {
-  content: '';
-  display: block;
-  clear: both;
-  height: 0;
-}
-
 .column-1,
 .column-2,
 .column-3,
 .column-4,
 .column-5,
 .column-6,
-.column-7.column-8,
+.column-7,
+.column-8,
 .column-9,
 .column-10,
 .column-11,
@@ -224,285 +384,206 @@ footer {
 
 .image {
   display: inline-block;
+
+  img {
+    @include image;
+  }
+
+  .featured {
+    @include image;
+    margin: 0 0 2em 0;
+  }
+
+  .full {
+    @include image;
+    margin-bottom: 2em;
+  }
+
+  .left {
+    float: left;
+    margin: 0 2em 2em 0;
+  }
+
+  .centered {
+    display: block;
+    margin: 0 0 2em 0;
+
+    img {
+      margin: 0 auto;
+      width: auto;
+    }
+  }
 }
 
-.image img {
-  display: block;
-  width: 100%;
-}
+ul {
+  .default {
+    @include list();
 
-.image.featured {
-  display: block;
-  width: 100%;
-  margin: 0 0 2em 0;
-}
+    li {
+      display: block;
+      padding: 2em 0em 1.25em 0em;
+      border-top: 1px solid $accent;
 
-.image.full {
-  display: block;
-  width: 100%;
-  margin-bottom: 2em;
-}
+      :first-child {
+        @include first-child;
+      }
+    }
 
-.image.left {
-  float: left;
-  margin: 0 2em 2em 0;
-}
+    a {
+      text-decoration: none;
+      color: $text-decor;
 
-.image.centered {
-  display: block;
-  margin: 0 0 2em 0;
-}
+      :hover {
+        text-decoration: underline;
+      }
+    }
+  }
 
-.image.centered img {
-  margin: 0 auto;
-  width: auto;
-}
+  .style1 {
+    @include list();
 
-ul.default {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+    li {
+      padding: 0.6em 0em;
+      @include border;
 
-ul.default li {
-  display: block;
-  padding: 2em 0em 1.25em 0em;
-  border-top: 1px solid #303030;
-}
+      :first-child {
+        @include first-child;
+      }
+    }
+  }
 
-ul.default li:first-child {
-  padding-top: 0em;
-  border-top: none;
-}
+  .style2 {
+    @include list();
 
-ul.default a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, .5);
-}
+    li {
+      padding: 1.9em 0em 1.6em 0em;
+      @include border;
 
-ul.default a:hover {
-  text-decoration: underline;
-}
+      :first-child {
+        @include first-child;
+      }
+    }
 
-ul.style1 {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+    img {
+      float: left;
+      padding-right: 1em;
+    }
+  }
 
-ul.style1 li {
-  padding: 0.60em 0em;
-  border-top: 1px solid;
-  border-color: rgba(0, 0, 0, .1);
-}
+  .style5 {
+    overflow: hidden;
+    @include list();
 
-ul.style1 li:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-ul.style2 {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-ul.style2 li {
-  padding: 1.90em 0em 1.60em 0em;
-  border-top: 1px solid;
-  border-color: rgba(0, 0, 0, .1);
-}
-
-ul.style2 li:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-ul.style2 img {
-  float: left;
-  padding-right: 1em;
-}
-
-ul.style5 {
-  overflow: hidden;
-  margin: 0em 0em 1em 0em;
-  padding: 0em;
-  list-style: none;
-}
-
-ul.style5 li {
-  float: left;
-  padding: 0.25em 0.25em;
-  line-height: 0;
+    li {
+      float: left;
+      padding: 0.25em 0.25em;
+      line-height: 0;
+    }
+  }
 }
 
 .button {
   position: relative;
   display: inline-block;
   margin-top: 0.5em;
-  padding: 0.50em 1.5em;
-  background: #0d6efd;
+  padding: 0.5em 1.5em;
+  background: $tertiary-color;
   border-radius: 6px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.1em;
-  color: #FFF;
+  color: $white;
   transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
   cursor: pointer;
-}
 
-.button:hover {
-  background: #0d6efd;
-  color: #FFF !important;
+  :hover {
+    background: $tertiary-color;
+    color: $white !important;
+  }
 }
 
 .header {
-  position: relative;
-  background: #FFF;
-}
+  @include header;
 
-.header .container {
-  position: relative;
-  padding: 4em 0em;
-}
-
-.logo {
-  position: absolute;
-  left: 0em;
-  top: 3em;
-}
-
-.logo a {
-  display: block;
-  text-decoration: none;
-  font-size: 2.8em;
-  font-weight: 600;
-}
-
-.nav {
-  position: absolute;
-  right: 0em;
-  top: 2.2em;
-}
-
-.nav ul {
-  list-style-type: none;
-}
-
-.nav ul li {
-  float: left;
-}
-
-.nav ul li:last-child {
-  padding-right: 0;
-}
-
-.nav ul li a,
-.nav ul li span {
-  display: block;
-  margin-left: 0.7em;
-  padding: 0.80em 1.2em;
-  letter-spacing: 0.06em;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 1.1em;
-  outline: 0;
-  color: #333;
-}
-
-.nav li.active a {
-  background: #0d6efd;
-  border-radius: 5px;
-  color: #FFF;
+  .container {
+    position: relative;
+    padding: 4em 0em;
+  }
 }
 
 .banner {
   position: relative;
   padding: 12em 0em;
-  background: url('/images/banner.jpg') no-repeat center;
+  background: url("/images/banner.jpg") no-repeat center;
   background-size: cover;
-  color: #fff;
+  color: $white;
 }
 
 .page {
-  position: relative;
-  background: #fff;
+  @include header;
 }
 
 .main {
-  border-top: 1px solid;
-  border-color: rgba(0, 0, 0, .2);
-}
-
-.sidebar header h2 {
-  font-size: 1.6em;
+  @include border;
 }
 
 .footer {
   position: relative;
-  color: rgba(255, 255, 255, .4);
-}
+  color: $text-color;
 
-.footer h2 {
-  padding-bottom: 1.5em;
-  font-size: 1.6em;
-  color: #FFF;
-}
+  h2 {
+    padding-bottom: 1.5em;
+    font-size: 1.6em;
+    color: $white;
+  }
 
-.footer strong {
-  color: rgba(255, 255, 255, .7);
+  strong {
+    color: $strong-header;
+  }
 }
 
 .copyright {
   position: relative;
   padding: 3em 0em;
-  border-top: 1px solid #303030;
+  border-top: 1px solid $accent;
   letter-spacing: 1px;
   text-align: center;
-  color: rgba(255, 255, 255, .4);
-}
+  color: $copyright-color;
 
-.copyright a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, .4) !important;
-}
-
-.marketing {
-  position: relative;
-}
-
-.marketing header h2 {
-  font-size: 1.6em;
+  a {
+    text-decoration: none;
+    color: $copyright-color !important;
+  }
 }
 
 .featured {
   position: relative;
-}
 
-.featured .divider {
-  border-bottom: 1px solid #303030;
-}
+  .divider {
+    border-bottom: 1px solid $accent;
+  }
 
-.featured .box {
-  background: #FFF;
-  padding: 1.4em;
-  font-size: 0.95em;
-  border-radius: 5px;
+  .box {
+    background: $white;
+    padding: 1.4em;
+    font-size: 0.95em;
+    border-radius: 5px;
+  }
 }
 
 .balloon {
   padding: 1.87em;
-  background: url('/images/balloon-bg.jpg') repeat left top;
+  background: url("/images/balloon-bg.jpg") repeat left top;
   border-radius: 5px;
   line-height: 180%;
   font-size: 1.2em;
-  color: #333;
-}
+  color: $text-color;
 
-.ballon-bgbtm {
-  height: 1.87em;
-}
+  .bgbtm {
+    height: 1.87em;
+  }
 
-.balloon strong {
-  color: #333 !important;
+  strong {
+    color: $tertiary-color !important;
+  }
 }
